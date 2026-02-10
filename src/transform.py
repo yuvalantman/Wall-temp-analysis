@@ -1,12 +1,10 @@
 """
 Data transformation and aggregation for thermal experiment.
-Handles resampling, wall/box aggregations, gradients, thermal lag.
+Handles resampling, wall/box aggregations, gradients.
 """
 
 import pandas as pd
 import numpy as np
-from scipy.signal import correlate
-from scipy.stats import pearsonr
 import logging
 import sys
 
@@ -414,6 +412,7 @@ def calculate_thermal_lag(out_series, in_series, max_lag_hours=12):
     """
     Calculate thermal lag between outside and inside using cross-correlation.
     Returns lag in minutes and correlation coefficient.
+    Uses only numpy - no scipy required.
     """
     # Remove NaN values
     valid_idx = ~(out_series.isna() | in_series.isna())
@@ -427,8 +426,9 @@ def calculate_thermal_lag(out_series, in_series, max_lag_hours=12):
     out_norm = (out_clean - np.mean(out_clean)) / (np.std(out_clean) + 1e-8)
     in_norm = (in_clean - np.mean(in_clean)) / (np.std(in_clean) + 1e-8)
     
-    # Cross-correlation
-    correlation = correlate(in_norm, out_norm, mode='full')
+    # Cross-correlation using numpy (mode='same' equivalent)
+    # numpy.correlate is limited, so we'll use convolution approach
+    correlation = np.correlate(in_norm, out_norm, mode='full')
     lags = np.arange(-len(out_norm) + 1, len(out_norm))
     
     # Convert lags to minutes (assuming 10-minute intervals)
@@ -447,7 +447,29 @@ def calculate_thermal_lag(out_series, in_series, max_lag_hours=12):
     
     max_idx = np.argmax(valid_corr)
     best_lag = valid_lags[max_idx]
-    best_corr = valid_corr[max_idx] / len(out_clean)  # Normalize
+    
+    # Calculate Pearson correlation coefficient at best lag manually
+    lag_samples = int(best_lag / 10)
+    if lag_samples >= 0 and lag_samples < len(out_clean):
+        # Shift and align series
+        if lag_samples > 0:
+            shifted_out = out_clean[:-lag_samples]
+            aligned_in = in_clean[lag_samples:]
+        else:
+            shifted_out = out_clean
+            aligned_in = in_clean
+        
+        # Calculate Pearson r manually
+        if len(shifted_out) > 1:
+            mean_out = np.mean(shifted_out)
+            mean_in = np.mean(aligned_in)
+            num = np.sum((shifted_out - mean_out) * (aligned_in - mean_in))
+            denom = np.sqrt(np.sum((shifted_out - mean_out)**2) * np.sum((aligned_in - mean_in)**2))
+            best_corr = num / (denom + 1e-8)
+        else:
+            best_corr = valid_corr[max_idx] / len(out_clean)
+    else:
+        best_corr = valid_corr[max_idx] / len(out_clean)
     
     return best_lag, best_corr
 
