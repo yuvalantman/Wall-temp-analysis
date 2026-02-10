@@ -1,5 +1,7 @@
 # Thermal Experiment Dashboard
 
+Interactive Streamlit dashboard for analyzing thermal performance data from control and experimental boxes equipped with 16 temperature sensors each.
+
 ## Quick Start
 
 ### 1. Create Virtual Environment
@@ -18,56 +20,74 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
+### 4. Deactivate Virtual Environment (when done)
+```powershell
+deactivate
+```
+
 ## Project Structure
 
 ```
 Dashboard/
-├── Period1/          # 32 CSV files (P1 data)
-├── Period2/          # 29 CSV files (P2 data - sensors 5,9,11 missing)
+├── data_cleaned/
+│   ├── Period1/          # 32 CSV files (Control & Experimental boxes)
+│   └── Period2/          # 29 CSV files (some sensors missing)
 ├── src/
-│   ├── load.py       # CSV parsing & data loading
-│   ├── transform.py  # Resampling, aggregation, metrics
-│   └── plots.py      # Plotly visualization functions
-├── app.py            # Main Streamlit dashboard
-└── requirements.txt
+│   ├── __init__.py
+│   ├── load.py           # CSV parsing & data loading
+│   ├── transform.py      # Resampling, aggregation, validation
+│   └── plots.py          # Plotly visualization functions
+├── tests/
+│   ├── test_load.py
+│   └── test_transform.py
+├── diagnostics/          # Log files and diagnostic reports
+├── app.py                # Main Streamlit dashboard
+├── requirements.txt      # Python dependencies
+├── README.md
+└── .gitignore
 ```
 
 ## Features
 
-### Data Handling
-- **Robust CSV parsing**: Headers at row 15, handles junk rows
-- **Missing sensor support**: Gracefully handles Period2 missing sensors (5, 9, 11)
+### Data Validation & Processing
+- **Robust CSV parsing**: Headers at row 15, handles junk rows and encoding issues
+- **10-minute bin validation**: Ensures each timestamp has exactly 32 values (16 sensors × 2 boxes)
+- **Missing sensor support**: Gracefully handles Period2 missing sensors
 - **Time alignment**: Resamples to clean 10-minute intervals
-- **Regime detection**: Auto-detects wall type changes from CSV data
+- **Wall type detection**: Auto-detects regime changes from experimental box data
+- **Multi-level aggregation**: Sensor → Wall → Box hierarchy
 
-### Dashboard Tabs
+### Dashboard Views
 
 **1. Main Timeline**
-- Box-level or wall-level views
-- Toggle room/surface temperatures
+- **Box Average**: Compare control vs experimental box internal temperatures
+- **Per-Box Detail**: See internal, inside surface, and outside surface temps for one box
+- **Individual Walls**: View up to 4 walls simultaneously for one box
+- **Wall Comparison**: Compare same wall across both boxes
+- Toggles for room temperature, surface temperatures
 - Smoothing options (1h, 3h, 12h)
-- Wall type change markers
+- Wall type change markers with annotations
 
 **2. Sandwich View**
-- Outside vs Inside temperature comparison
-- Thermal lag calculation (cross-correlation)
-- Multi-wall comparison
+- Outside vs Inside temperature comparison per wall
+- Thermal lag calculation (cross-correlation analysis)
+- Multi-wall overlay with color coding
 
 **3. Thermal Gradient**
-- Summary by wall type
-- Normalized temperature visualization
-- Statistics table
+- Surface gradient (outside surface - inside surface)
+- Total gradient (outside internal - inside internal)  
+- Statistics by wall type (Before/After change)
+- Separate trend lines for each gradient type
 
 **4. Diagnostic Overlay**
-- All 16 sensors on one plot
-- Box average highlighted
-- Color-coded outside/inside sensors
+- All 16 sensors plotted individually
+- Box average highlighted for reference
+- Color-coded by position (outside/inside sensors)
 
-**5. Summary**
-- Data overview metrics
-- Correlation heatmap
-- Sensor availability table
-- CSV export
+### Data Export
+- CSV export available in sidebar
+- Choose data level: Sensor, Wall, or Box
+- Includes all calculated metrics and smoothed values
 
 ## Sensor Topology
 

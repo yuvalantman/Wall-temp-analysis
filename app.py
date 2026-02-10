@@ -205,6 +205,37 @@ if smoothing_option:
         )
 
 
+# ===== CSV EXPORT (in sidebar) =====
+with st.sidebar:
+    st.markdown("---")
+    st.subheader("📥 Export Data")
+    export_level = st.selectbox(
+        "Data Level",
+        options=['Sensor', 'Wall', 'Box'],
+        help="Choose aggregation level for export"
+    )
+    
+    if st.button("Generate CSV", type="primary"):
+        # Get the appropriate filtered dataset
+        if export_level == 'Sensor':
+            export_df = filtered_sensor
+        elif export_level == 'Wall':
+            export_df = filtered_wall
+        else:
+            export_df = filtered_box
+        
+        if export_df is not None and len(export_df) > 0:
+            csv = export_df.to_csv(index=False)
+            st.download_button(
+                label=f"Download {export_level} Data CSV",
+                data=csv,
+                file_name=f"thermal_data_{export_level.lower()}_{period_option}.csv",
+                mime="text/csv",
+            )
+        else:
+            st.error("No data available for export")
+
+
 # ===== TABS =====
 
 tab1, tab2, tab3, tab4 = st.tabs([
