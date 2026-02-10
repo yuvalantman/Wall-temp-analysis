@@ -1,0 +1,1363 @@
+Logging to file: data_loading_log_20260210_135750.txt
+
+
+
+********************************************************************************
+********************************************************************************
+**  THERMAL EXPERIMENT DATA LOADING
+**  Base folder: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned
+********************************************************************************
+********************************************************************************
+
+
+################################################################################
+# LOADING PERIOD: Period1
+# Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1
+################################################################################
+
+📊 Found 32 CSV files
+   Files: ['GW_1.10_111025.csv', 'GW_1.11_111025.csv', 'GW_1.12_111025.csv', 'GW_1.13_111025.csv', 'GW_1.14_111025.csv']...
+
+→ Box1 / Sensor10 / Wall1 / Position:in
+
+======================================================================
+📄 FILE: GW_1.10_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.10_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.10_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor11 / Wall2 / Position:in
+
+======================================================================
+📄 FILE: GW_1.11_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.11_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.11_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  24.00°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor12 / Wall2 / Position:in
+
+======================================================================
+📄 FILE: GW_1.12_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.12_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.12_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor13 / Wall3 / Position:in
+
+======================================================================
+📄 FILE: GW_1.13_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.13_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.13_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor14 / Wall3 / Position:in
+
+======================================================================
+📄 FILE: GW_1.14_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.14_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.14_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  24.00°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor15 / Wall4 / Position:in
+
+======================================================================
+📄 FILE: GW_1.15_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.15_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.15_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor16 / Wall4 / Position:in
+
+======================================================================
+📄 FILE: GW_1.16_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.16_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.16_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor1 / Wall1 / Position:out
+
+======================================================================
+📄 FILE: GW_1.1_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.1_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.1_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor2 / Wall1 / Position:out
+
+======================================================================
+📄 FILE: GW_1.2_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.2_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.2_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  23.00°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor3 / Wall2 / Position:out
+
+======================================================================
+📄 FILE: GW_1.3_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.3_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.3_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor4 / Wall2 / Position:out
+
+======================================================================
+📄 FILE: GW_1.4_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.4_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.4_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor5 / Wall3 / Position:out
+
+======================================================================
+📄 FILE: GW_1.5_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.5_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.5_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  24.00°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor6 / Wall3 / Position:out
+
+======================================================================
+📄 FILE: GW_1.6_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.6_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:03' → 2025-10-23 12:03:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:03:00 → 2025-11-06 16:13:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.6_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:03:00
+    surface_temp:  24.00°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor7 / Wall4 / Position:out
+
+======================================================================
+📄 FILE: GW_1.7_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.7_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.7_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor8 / Wall4 / Position:out
+
+======================================================================
+📄 FILE: GW_1.8_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.8_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.8_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  24.00°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box1 / Sensor9 / Wall1 / Position:in
+
+======================================================================
+📄 FILE: GW_1.9_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_1.9_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_1.9_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  23.50°C
+    internal_temp: 23.90°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 2048 rows (100.0%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor10 / Wall1 / Position:in
+
+======================================================================
+📄 FILE: GW_2.10_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.10_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.10_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor11 / Wall2 / Position:in
+
+======================================================================
+📄 FILE: GW_2.11_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.11_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:00' → 2025-10-23 12:00:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:00:00 → 2025-11-06 16:10:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.11_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:00:00
+    surface_temp:  24.00°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor12 / Wall2 / Position:in
+
+======================================================================
+📄 FILE: GW_2.12_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.12_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.12_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor13 / Wall3 / Position:in
+
+======================================================================
+📄 FILE: GW_2.13_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.13_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.13_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor14 / Wall3 / Position:in
+
+======================================================================
+📄 FILE: GW_2.14_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.14_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.14_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor15 / Wall4 / Position:in
+
+======================================================================
+📄 FILE: GW_2.15_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.15_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.15_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor16 / Wall4 / Position:in
+
+======================================================================
+📄 FILE: GW_2.16_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.16_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.16_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor1 / Wall1 / Position:out
+
+======================================================================
+📄 FILE: GW_2.1_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.1_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.1_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor2 / Wall1 / Position:out
+
+======================================================================
+📄 FILE: GW_2.2_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.2_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.2_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor3 / Wall2 / Position:out
+
+======================================================================
+📄 FILE: GW_2.3_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.3_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:02' → 2025-10-23 12:02:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:02:00 → 2025-11-06 16:12:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.3_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:02:00
+    surface_temp:  24.00°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor4 / Wall2 / Position:out
+
+======================================================================
+📄 FILE: GW_2.4_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.4_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.4_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  24.00°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor5 / Wall3 / Position:out
+
+======================================================================
+📄 FILE: GW_2.5_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.5_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.5_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor6 / Wall3 / Position:out
+
+======================================================================
+📄 FILE: GW_2.6_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.6_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.6_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor7 / Wall4 / Position:out
+
+======================================================================
+📄 FILE: GW_2.7_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.7_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.7_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor8 / Wall4 / Position:out
+
+======================================================================
+📄 FILE: GW_2.8_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.8_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:01' → 2025-10-23 12:01:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:01:00 → 2025-11-06 16:11:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.8_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:01:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+→ Box2 / Sensor9 / Wall1 / Position:in
+
+======================================================================
+📄 FILE: GW_2.9_111025.csv
+   Path: C:\Users\yuval\OneDrive\מסמכים\BGU\work\Dashboard\data_cleaned\Period1\GW_2.9_111025.csv
+======================================================================
+✓ Loaded with encoding: utf-8
+✓ Raw rows read: 2048
+✓ Columns found: ['date/time', 'unit', 'value heat surface sensor', 'internal temp sensor', 'out air temp']...
+✓ Found columns:
+  Date: 'date/time'
+  Surface: 'value heat surface sensor'
+  Internal: 'internal temp sensor'
+  Room: 'out air temp'
+  Parsing timestamps (format: M/D/YYYY H:MM)...
+  Checking data completeness (required columns: 4)...
+  Sample: '10/23/2025 12:00' → 2025-10-23 12:00:00
+✓ Valid timestamp rows: 2048
+  Time range: 2025-10-23 12:00:00 → 2025-11-06 16:10:00
+
+  Missing value check:
+    ✓ surface_temp: no missing values
+    ✓ internal_temp: no missing values
+    ✓ room_temp: no missing values
+    ✓ wall_type: no missing values
+
+  Sample data from GW_2.9_111025.csv (first valid row):
+    timestamp:     2025-10-23 12:00:00
+    surface_temp:  23.50°C
+    internal_temp: 24.10°C
+    room_temp:     34.00°C
+    wall_type:     'Exposed'
+
+  Wall types in this file:
+    'Exposed': 719 rows (35.1%)
+    'Yraka': 576 rows (28.1%)
+    'Dry soil': 440 rows (21.5%)
+    'Succalents': 313 rows (15.3%)
+  ✓ SUCCESS: 2,048 rows loaded
+
+================================================================================
+PERIOD SUMMARY: Period1
+================================================================================
+  Files processed:  32
+  Successfully loaded: 32
+  Failed:           0
+  Total rows:       65,536
+
+  File-to-Sensor Mapping:
+  File                      Box   Sensor   Wall   Pos   Rows     Wall Types                    
+  ----------------------------------------------------------------------------------------------------
+  GW_1.10_111025.csv        1     10       1      in    2,048    Exposed                       
+  GW_1.11_111025.csv        1     11       2      in    2,048    Exposed                       
+  GW_1.12_111025.csv        1     12       2      in    2,048    Exposed                       
+  GW_1.13_111025.csv        1     13       3      in    2,048    Exposed                       
+  GW_1.14_111025.csv        1     14       3      in    2,048    Exposed                       
+  GW_1.15_111025.csv        1     15       4      in    2,048    Exposed                       
+  GW_1.16_111025.csv        1     16       4      in    2,048    Exposed                       
+  GW_1.1_111025.csv         1     1        1      out   2,048    Exposed                       
+  GW_1.2_111025.csv         1     2        1      out   2,048    Exposed                       
+  GW_1.3_111025.csv         1     3        2      out   2,048    Exposed                       
+  GW_1.4_111025.csv         1     4        2      out   2,048    Exposed                       
+  GW_1.5_111025.csv         1     5        3      out   2,048    Exposed                       
+  GW_1.6_111025.csv         1     6        3      out   2,048    Exposed                       
+  GW_1.7_111025.csv         1     7        4      out   2,048    Exposed                       
+  GW_1.8_111025.csv         1     8        4      out   2,048    Exposed                       
+  GW_1.9_111025.csv         1     9        1      in    2,048    Exposed                       
+  GW_2.10_111025.csv        2     10       1      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.11_111025.csv        2     11       2      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.12_111025.csv        2     12       2      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.13_111025.csv        2     13       3      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.14_111025.csv        2     14       3      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.15_111025.csv        2     15       4      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.16_111025.csv        2     16       4      in    2,048    Exposed, Succalents, Yrak...  
+  GW_2.1_111025.csv         2     1        1      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.2_111025.csv         2     2        1      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.3_111025.csv         2     3        2      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.4_111025.csv         2     4        2      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.5_111025.csv         2     5        3      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.6_111025.csv         2     6        3      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.7_111025.csv         2     7        4      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.8_111025.csv         2     8        4      out   2,048    Exposed, Succalents, Yrak...  
+  GW_2.9_111025.csv         2     9        1      in    2,048    Exposed, Succalents, Yrak...  
+
+  Sensor availability:
+    Found (16):   [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9), np.int64(10), np.int64(11), np.int64(12), np.int64(13), np.int64(14), np.int64(15), np.int64(16)]
+
+  Box and Wall breakdown:
+    Box 1: 16 sensors → [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9), np.int64(10), np.int64(11), np.int64(12), np.int64(13), np.int64(14), np.int64(15), np.int64(16)]
+      Wall 1: 4/4 sensors | Out: [np.int64(1), np.int64(2)], In: [np.int64(9), np.int64(10)]
+      Wall 2: 4/4 sensors | Out: [np.int64(3), np.int64(4)], In: [np.int64(11), np.int64(12)]
+      Wall 3: 4/4 sensors | Out: [np.int64(5), np.int64(6)], In: [np.int64(13), np.int64(14)]
+      Wall 4: 4/4 sensors | Out: [np.int64(7), np.int64(8)], In: [np.int64(15), np.int64(16)]
+    Box 2: 16 sensors → [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9), np.int64(10), np.int64(11), np.int64(12), np.int64(13), np.int64(14), np.int64(15), np.int64(16)]
+      Wall 1: 4/4 sensors | Out: [np.int64(1), np.int64(2)], In: [np.int64(9), np.int64(10)]
+      Wall 2: 4/4 sensors | Out: [np.int64(3), np.int64(4)], In: [np.int64(11), np.int64(12)]
+      Wall 3: 4/4 sensors | Out: [np.int64(5), np.int64(6)], In: [np.int64(13), np.int64(14)]
+      Wall 4: 4/4 sensors | Out: [np.int64(7), np.int64(8)], In: [np.int64(15), np.int64(16)]
+================================================================================
+
+✓ Period1 loaded successfully
+
+********************************************************************************
+FINAL DATA SUMMARY
+********************************************************************************
+
+Period1:
+  Total rows:    65,536
+  Unique sensors: 16
+  Boxes:         [np.int64(1), np.int64(2)]
+  Time span:     2025-10-23 12:00:00 to 2025-11-06 16:13:00
+  Duration:      14 days
+
+  Detailed sensor breakdown:
+    Box 1: 16 sensors
+      Sensor  1 (Wall 1, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  2 (Wall 1, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  3 (Wall 2, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  4 (Wall 2, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  5 (Wall 3, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  6 (Wall 3, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  7 (Wall 4, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  8 (Wall 4, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  9 (Wall 1,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 10 (Wall 1,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 11 (Wall 2,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 12 (Wall 2,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 13 (Wall 3,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 14 (Wall 3,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 15 (Wall 4,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 16 (Wall 4,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+    Box 2: 16 sensors
+      Sensor  1 (Wall 1, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  2 (Wall 1, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  3 (Wall 2, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  4 (Wall 2, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  5 (Wall 3, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  6 (Wall 3, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  7 (Wall 4, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  8 (Wall 4, out): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor  9 (Wall 1,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 10 (Wall 1,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 11 (Wall 2,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 12 (Wall 2,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 13 (Wall 3,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 14 (Wall 3,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 15 (Wall 4,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+      Sensor 16 (Wall 4,  in): 2,048 rows | Missing: surf=0, int=0, room=0
+
+********************************************************************************
+

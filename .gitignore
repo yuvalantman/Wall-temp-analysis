@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (uncomment if you don't want to track CSV files)
+# Period1/*.csv
+# Period2/*.csv
+
+# Logs
+*.log
+
+# Distribution
+dist/
+build/
+*.egg-info/
