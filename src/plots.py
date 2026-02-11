@@ -370,78 +370,99 @@ def plot_timeline_wall(data, walls=None, box_id=2, smoothing=None, show_internal
 
 def plot_sandwich_view(data, box_id=2, wall_ids=None):
     """
-    Plot outside vs inside surface temperatures with thermal lag calculation.
+    Plot outside vs inside surface temperatures with thermal lag calculation BY WALL TYPE.
     
     Thermal Lag Explanation:
     - Measures time delay for heat to transfer from outside to inside of wall
     - Calculated using cross-correlation between outside and inside surface temps
     - Higher lag = better insulation (heat takes longer to penetrate)
     - Correlation (r) indicates how similar the patterns are (1.0 = identical shape)
+    - NOW GROUPED BY WALL TYPE instead of individual walls
     """
-    if wall_ids is None:
-        wall_ids = [1, 2, 3, 4]
+    box_data = data[data['box_id'] == box_id].copy()
+    
+    if len(box_data) == 0:
+        return go.Figure()
+    
+    # Get unique wall types in order
+    wall_types = box_data['wall_type'].dropna().unique()
+    wall_types = sorted([wt for wt in wall_types if pd.notna(wt)])
+    
+    if len(wall_types) == 0:
+        return go.Figure()
     
     fig = make_subplots(
-        rows=len(wall_ids), 
+        rows=len(wall_types), 
         cols=1,
-        subplot_titles=[f'Wall {w}' for w in wall_ids],
+        subplot_titles=[f'Wall Type: {wt}' for wt in wall_types],
         vertical_spacing=0.08,
     )
     
-    for idx, wall_id in enumerate(wall_ids, 1):
-        wall_data = data[(data['box_id'] == box_id) & (data['wall_id'] == wall_id)].sort_values('timestamp')
+    for idx, wall_type in enumerate(wall_types, 1):
+        # Get data for this wall type (aggregate across all walls with this type)
+        wall_type_data = box_data[box_data['wall_type'] == wall_type].sort_values('timestamp')
         
-        if len(wall_data) == 0:
+        if len(wall_type_data) == 0:
             continue
         
+        # Aggregate by timestamp (average across all walls of same type)
+        aggregated = wall_type_data.groupby('timestamp').agg({
+            'out_surface': 'mean',
+            'in_surface': 'mean'
+        }).reset_index()
+        
         # Outside Surface (heat arriving at exterior)
-        if 'out_surface' in wall_data.columns:
+        if 'out_surface' in aggregated.columns:
             fig.add_trace(go.Scatter(
-                x=wall_data['timestamp'],
-                y=wall_data['out_surface'],
+                x=aggregated['timestamp'],
+                y=aggregated['out_surface'],
                 mode='lines',
                 name='Outside Surface' if idx == 1 else None,
+                line=dict(color='#E63946', width=2.5),
                 legendgroup='outside',
                 showlegend=(idx == 1),
-                line=dict(color=POSITION_COLORS['out'], width=2.5),
             ), row=idx, col=1)
         
         # Inside Surface (heat arriving at interior)
-        if 'in_surface' in wall_data.columns:
+        if 'in_surface' in aggregated.columns:
             fig.add_trace(go.Scatter(
-                x=wall_data['timestamp'],
-                y=wall_data['in_surface'],
+                x=aggregated['timestamp'],
+                y=aggregated['in_surface'],
                 mode='lines',
                 name='Inside Surface' if idx == 1 else None,
+                line=dict(color='#118AB2', width=2.5),
                 legendgroup='inside',
                 showlegend=(idx == 1),
-                line=dict(color=POSITION_COLORS['in'], width=2.5),
             ), row=idx, col=1)
         
-        # Calculate thermal lag between outside and inside surface
-        if 'out_surface' in wall_data.columns and 'in_surface' in wall_data.columns:
-            lag, corr = calculate_thermal_lag(wall_data['out_surface'], wall_data['in_surface'])
+        # Calculate thermal lag for this wall type
+        if 'out_surface' in aggregated.columns and 'in_surface' in aggregated.columns:
+            lag, corr = calculate_thermal_lag(aggregated['out_surface'], aggregated['in_surface'])
             
-            if lag is not None:
-                annotation_text = f'Lag: {lag:.0f} min (r={corr:.2f})'
+            if lag is not None and corr is not None:
+                annotation_text = f'Thermal Lag: {lag:.0f} min | Correlation: {corr:.2f}'
                 fig.add_annotation(
                     xref=f'x{idx}', yref=f'y{idx}',
-                    x=wall_data['timestamp'].iloc[len(wall_data)//2],
-                    y=wall_data[['out_surface', 'in_surface']].max().max(),
+                    x=aggregated['timestamp'].iloc[len(aggregated)//2],
+                    y=aggregated[['out_surface', 'in_surface']].max().max(),
                     text=annotation_text,
                     showarrow=False,
-                    bgcolor='white',
-                    opacity=0.8,
-                    font=dict(size=11, color='black'),
+                    bgcolor='rgba(255, 255, 255, 0.9)',
+                    font=dict(size=12, color='black'),
+                    bordercolor='black',
+                    borderwidth=1,
                 )
         
-        fig.update_xaxes(title_text='Time' if idx == len(wall_ids) else '', row=idx, col=1)
+        fig.update_xaxes(title_text='', row=idx, col=1)
         fig.update_yaxes(title_text='Temperature (°C)', row=idx, col=1)
+    
+    # Add x-axis title to last subplot
+    fig.update_xaxes(title_text='Time', row=len(wall_types), col=1)
     
     box_name = 'Control' if box_id == 1 else 'Experimental'
     fig.update_layout(
-        title=f'Sandwich View - Thermal Transfer Analysis ({box_name} Box)',
-        height=300 * len(wall_ids),
+        title=f'Thermal Transfer Analysis by Wall Type - {box_name} Box',
+        height=300 * len(wall_types),
         hovermode='x unified',
         legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
     )
@@ -462,16 +483,43 @@ def plot_thermal_gradient_summary(data, periods=None):
     
     filtered = data[data['period'].isin(periods)]
     
-    # Group by wall_type and calculate mean values
-    summary = filtered.groupby('wall_type').agg({
-        'room_temp': 'mean',
-        'out_surface': 'mean',
-        'in_surface': 'mean',
-        'internal_avg': 'mean',
-    }).reset_index()
+    # Check which columns are available and build aggregation dict dynamically
+    agg_dict = {}
+    required_cols = []
     
-    # Filter out rows with missing data
-    summary = summary.dropna(subset=['room_temp', 'out_surface', 'in_surface', 'internal_avg'])
+    if 'room_temp' in filtered.columns:
+        agg_dict['room_temp'] = 'mean'
+        required_cols.append('room_temp')
+    
+    if 'out_surface' in filtered.columns:
+        agg_dict['out_surface'] = 'mean'
+        required_cols.append('out_surface')
+    
+    if 'in_surface' in filtered.columns:
+        agg_dict['in_surface'] = 'mean'
+        required_cols.append('in_surface')
+    
+    # Use in_internal for internal temperature (average of inside sensors)
+    if 'in_internal' in filtered.columns:
+        agg_dict['in_internal'] = 'mean'
+        required_cols.append('in_internal')
+    
+    if not agg_dict:
+        fig = go.Figure()
+        fig.add_annotation(
+            text="Required columns not found in data",
+            xref="paper", yref="paper",
+            x=0.5, y=0.5,
+            showarrow=False,
+            font=dict(size=16)
+        )
+        return fig
+    
+    # Group by wall_type and calculate mean values
+    summary = filtered.groupby('wall_type').agg(agg_dict).reset_index()
+    
+    # Filter out rows with missing data in required columns
+    summary = summary.dropna(subset=required_cols)
     
     if len(summary) == 0:
         fig = go.Figure()
@@ -484,16 +532,29 @@ def plot_thermal_gradient_summary(data, periods=None):
         )
         return fig
     
+    # Calculate gradients for bar chart
+    summary['surface_gradient'] = summary['out_surface'] - summary['in_surface']
+    summary['total_gradient'] = summary['room_temp'] - summary['in_internal']
+    
     # Define colors for wall types
     wall_type_colors = {
         'Exposed': '#E63946',
         'Yarka': '#06A77D',
         'Dry soil': '#F77F00',
         'Succalents': '#6A4C93',
+        'Wet soil': '#1E88E5',
     }
     
-    fig = go.Figure()
+    # Create subplots: top for gradient lines, bottom for bar chart
+    from plotly.subplots import make_subplots
+    fig = make_subplots(
+        rows=2, cols=1,
+        row_heights=[0.6, 0.4],
+        vertical_spacing=0.15,
+        subplot_titles=('Temperature Gradients by Wall Type', 'Temperature Deltas (ΔT)')
+    )
     
+    # ===== TOP PLOT: Gradient Lines =====
     # Add spacing between wall types by using different y positions
     # We'll have 2 rows per wall type: one for surface gradient, one for total gradient
     wall_types = summary['wall_type'].tolist()
@@ -529,12 +590,13 @@ def plot_thermal_gradient_summary(data, periods=None):
                 f"{wall_type} - Outside Surface",
                 f"{wall_type} - Inside Surface"
             ],
-        ))
+        ), row=1, col=1)
         
         # Surface gradient annotation
-        surface_grad = row['out_surface'] - row['in_surface']
+        surface_grad = row['surface_gradient']
         mid_x_surf = (row['out_surface'] + row['in_surface']) / 2
         fig.add_annotation(
+            xref='x', yref='y',
             x=mid_x_surf,
             y=y_surf,
             text=f"ΔT={surface_grad:.2f}°C",
@@ -547,10 +609,10 @@ def plot_thermal_gradient_summary(data, periods=None):
             borderpad=3,
         )
         
-        # Line 2: Total gradient (room_temp → internal_avg)
+        # Line 2: Total gradient (room_temp → in_internal)
         y_total = y_positions[f"{wall_type}_total"]
         fig.add_trace(go.Scatter(
-            x=[row['room_temp'], row['internal_avg']],
+            x=[row['room_temp'], row['in_internal']],
             y=[y_total, y_total],
             mode='lines+markers',
             marker=dict(
@@ -567,12 +629,13 @@ def plot_thermal_gradient_summary(data, periods=None):
                 f"{wall_type} - Outside Air",
                 f"{wall_type} - Internal"
             ],
-        ))
+        ), row=1, col=1)
         
         # Total gradient annotation
-        total_grad = row['room_temp'] - row['internal_avg']
-        mid_x_total = (row['room_temp'] + row['internal_avg']) / 2
+        total_grad = row['total_gradient']
+        mid_x_total = (row['room_temp'] + row['in_internal']) / 2
         fig.add_annotation(
+            xref='x', yref='y',
             x=mid_x_total,
             y=y_total,
             text=f"ΔT={total_grad:.2f}°C",
@@ -585,22 +648,43 @@ def plot_thermal_gradient_summary(data, periods=None):
             borderpad=3,
         )
     
-    # Add legend explaining shapes with better formatting
-    fig.add_annotation(
-        text="<b>Shapes:</b> ◆ Outside Air  |  ● Outside Surface  |  ■ Inside Surface  |  ▲ Internal<br><b>Lines:</b> Solid = Surface Gradient  |  Dotted = Total Gradient",
-        xref="paper", yref="paper",
-        x=0.5, y=-0.12,
-        showarrow=False,
-        font=dict(size=11),
-        xanchor='center',
-        align='center',
-        bgcolor='rgba(240, 240, 240, 0.8)',
-        bordercolor='gray',
-        borderwidth=1,
-        borderpad=8,
-    )
+    # ===== BOTTOM PLOT: Horizontal Bar Chart for Deltas =====
+    # Sort summary by total gradient for better visualization
+    summary_sorted = summary.sort_values('total_gradient', ascending=True)
     
-    # Create y-axis labels
+    for idx, row in summary_sorted.iterrows():
+        wall_type = row['wall_type']
+        color = wall_type_colors.get(wall_type, '#6C757D')
+        
+        # Surface gradient bar
+        fig.add_trace(go.Bar(
+            y=[f"{wall_type}<br>(Surface)"],
+            x=[row['surface_gradient']],
+            orientation='h',
+            name=f"{wall_type} - Surface ΔT",
+            marker=dict(color=color, line=dict(color='white', width=2)),
+            text=f"{row['surface_gradient']:.2f}°C",
+            textposition='outside',
+            textfont=dict(size=11, color='black'),
+            hovertemplate=f"{wall_type}<br>Surface ΔT: %{{x:.2f}}°C<extra></extra>",
+            showlegend=False,
+        ), row=2, col=1)
+        
+        # Total gradient bar
+        fig.add_trace(go.Bar(
+            y=[f"{wall_type}<br>(Total)"],
+            x=[row['total_gradient']],
+            orientation='h',
+            name=f"{wall_type} - Total ΔT",
+            marker=dict(color=color, line=dict(color='white', width=2), pattern=dict(shape='/')),
+            text=f"{row['total_gradient']:.2f}°C",
+            textposition='outside',
+            textfont=dict(size=11, color='black'),
+            hovertemplate=f"{wall_type}<br>Total ΔT: %{{x:.2f}}°C<extra></extra>",
+            showlegend=False,
+        ), row=2, col=1)
+    
+    # Create y-axis labels for top plot
     y_tick_vals = []
     y_tick_labels = []
     for wt in wall_types:
@@ -608,21 +692,17 @@ def plot_thermal_gradient_summary(data, periods=None):
         y_tick_vals.append(mid_y)
         y_tick_labels.append(wt)
     
+    # Update layout
+    fig.update_xaxes(title_text='Temperature (°C)', row=1, col=1, zeroline=True, zerolinewidth=2, zerolinecolor='lightgray')
+    fig.update_xaxes(title_text='Temperature Difference (ΔT °C)', row=2, col=1, zeroline=True, zerolinewidth=2, zerolinecolor='lightgray')
+    fig.update_yaxes(title_text='Wall Type', row=1, col=1, tickmode='array', tickvals=y_tick_vals, ticktext=y_tick_labels)
+    fig.update_yaxes(title_text='', row=2, col=1)
+    
     fig.update_layout(
-        title='Temperature Gradients by Wall Type<br><sub>Surface gradient (solid) vs Total gradient (dotted)</sub>',
-        xaxis_title='Temperature (°C)',
-        yaxis_title='Wall Type',
-        height=max(500, len(summary) * 120),
+        height=max(700, len(summary) * 120 + 400),
         hovermode='closest',
-        showlegend=True,
-        legend=dict(orientation='v', yanchor='top', y=0.98, xanchor='left', x=1.02),
-        xaxis=dict(zeroline=True, zerolinewidth=2, zerolinecolor='lightgray'),
-        yaxis=dict(
-            tickmode='array',
-            tickvals=y_tick_vals,
-            ticktext=y_tick_labels,
-        ),
-        margin=dict(b=120, r=150),
+        showlegend=False,
+        margin=dict(b=60, r=100, l=150),
     )
     
     return fig

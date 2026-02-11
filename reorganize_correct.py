@@ -1,5 +1,5 @@
 """
-Reorganize data files correctly:
+Reorganize data files correctly from data/updated folder:
 - Period1: Files with dates 2025-10-23 to 2025-11-06
 - Period2: Files with dates >= 2025-12-03 11:00:00
 - Excluded: Files that don't fit criteria (marked with original period)
@@ -10,13 +10,14 @@ from pathlib import Path
 import shutil
 
 print("="*100)
-print("DATA REORGANIZATION - CORRECT VERSION")
+print("DATA REORGANIZATION - PROCESSING data/updated FOLDER")
 print("="*100)
 
 # Define date ranges
 PERIOD1_START = pd.Timestamp('2025-10-23')
 PERIOD1_END = pd.Timestamp('2025-11-06 23:59:59')
 PERIOD2_START = pd.Timestamp('2025-12-03 11:00:00')
+PERIOD2_END = pd.Timestamp('2025-12-11 11:59:59')
 
 # Create output directories
 output_dir = Path('data_cleaned')
@@ -47,10 +48,9 @@ stats = {
     'excluded': {'files': [], 'rows': 0}
 }
 
-# Process Period1 folder first
-source_dir = Path('data/Period1')
-print(f"\n{'='*100}")
-print(f"PROCESSING data/Period1/")
+# Process Period1 folder from data/updated
+source_dir = Path('data/updated/Period1')
+print(f"\nProcessing data/updated/Period1...")
 print(f"{'='*100}")
 
 for csv_file in sorted(source_dir.glob('*.csv')):
@@ -123,10 +123,9 @@ for csv_file in sorted(source_dir.glob('*.csv')):
         shutil.copy(csv_file, excluded_dir / f"Period1_{csv_file.name}")
         stats['excluded']['files'].append(f"Period1_{csv_file.name}")
 
-# Process Period2 folder
-source_dir = Path('data/Period2')
-print(f"\n{'='*100}")
-print(f"PROCESSING data/Period2/")
+# Process Period2 folder from data/updated
+source_dir = Path('data/updated/Period2')
+print(f"\nProcessing data/updated/Period2...")
 print(f"{'='*100}")
 
 for csv_file in sorted(source_dir.glob('*.csv')):
@@ -172,27 +171,36 @@ for csv_file in sorted(source_dir.glob('*.csv')):
         
         # Check if this file has data from Dec 3 11:00 onwards
         if orig_start >= PERIOD2_START:
-            # Perfect Period2 file (all data from Dec 3 11:00+)
-            print(f"    ✓ All data from Dec 3 11:00+ - belongs in Period2")
-            
-            with open(csv_file, 'r', encoding='latin-1') as f:
-                header_lines = [f.readline() for _ in range(14)]
-            
-            output_file = period2_dir / csv_file.name
-            with open(output_file, 'w', encoding='utf-8', newline='') as f:
-                for line in header_lines:
-                    f.write(line)
-                valid_df.drop('timestamp', axis=1).to_csv(f, index=False, header=True, lineterminator='\n')
-            
-            stats['period2']['files'].append(csv_file.name)
-            stats['period2']['rows'] += len(valid_df)
-            
-        elif orig_end >= PERIOD2_START:
-            # File spans multiple periods - filter to keep only Dec 3 11:00+
-            period2_data = valid_df[valid_df['timestamp'] >= PERIOD2_START]
+            # Filter to only keep data up to Dec 11 11:59:59
+            period2_data = valid_df[valid_df['timestamp'] <= PERIOD2_END]
             
             if len(period2_data) > 0:
-                print(f"    ✓ Filtered to Dec 3 11:00+ - keeping {len(period2_data)} rows for Period2")
+                print(f"    ✓ Data from Dec 3 11:00 to Dec 11 11:59:59 - keeping {len(period2_data)} rows for Period2")
+                
+                with open(csv_file, 'r', encoding='latin-1') as f:
+                    header_lines = [f.readline() for _ in range(14)]
+                
+                output_file = period2_dir / csv_file.name
+                with open(output_file, 'w', encoding='utf-8', newline='') as f:
+                    for line in header_lines:
+                        f.write(line)
+                    period2_data.drop('timestamp', axis=1).to_csv(f, index=False, header=True, lineterminator='\n')
+                
+                stats['period2']['files'].append(csv_file.name)
+                stats['period2']['rows'] += len(period2_data)
+            else:
+                print(f"    ✗ No data within Period2 range - moving to excluded")
+                shutil.copy(csv_file, excluded_dir / f"Period2_{csv_file.name}")
+                stats['excluded']['files'].append(f"Period2_{csv_file.name}")
+                stats['excluded']['rows'] += len(valid_df)
+            
+        elif orig_end >= PERIOD2_START:
+            # File spans multiple periods - filter to keep only Dec 3 11:00 to Dec 11 11:59:59
+            period2_data = valid_df[(valid_df['timestamp'] >= PERIOD2_START) & 
+                                   (valid_df['timestamp'] <= PERIOD2_END)]
+            
+            if len(period2_data) > 0:
+                print(f"    ✓ Filtered to Dec 3 11:00 - Dec 11 11:59:59 - keeping {len(period2_data)} rows for Period2")
                 
                 with open(csv_file, 'r', encoding='latin-1') as f:
                     header_lines = [f.readline() for _ in range(14)]

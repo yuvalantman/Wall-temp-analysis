@@ -495,16 +495,56 @@ def detect_wall_type_changes(df):
     """
     Detect timestamps where wall type changes.
     Returns list of (timestamp, new_wall_type) tuples.
+    
+    Consolidates consecutive timestamps with the same wall type change
+    by showing the mean timestamp of the transition period.
     """
     if df is None or 'wall_type' not in df.columns:
         return []
     
     df = df.sort_values('timestamp')
+    
+    # Detect all changes
     changes = df[df['wall_type'].ne(df['wall_type'].shift())].copy()
     
-    events = [(row['timestamp'], row['wall_type']) for _, row in changes.iterrows()]
+    if len(changes) == 0:
+        return []
     
-    return events
+    # Group consecutive changes to the same wall type
+    consolidated = []
+    current_type = None
+    current_timestamps = []
+    
+    for _, row in changes.iterrows():
+        wall_type = row['wall_type']
+        timestamp = row['timestamp']
+        
+        if wall_type == current_type:
+            # Same type as previous change, accumulate
+            current_timestamps.append(timestamp)
+        else:
+            # Different type - consolidate previous group if any
+            if current_type is not None and current_timestamps:
+                # Use mean timestamp for the transition
+                mean_timestamp = pd.Timestamp(
+                    int(np.mean([ts.value for ts in current_timestamps])),
+                    unit='ns'
+                )
+                consolidated.append((mean_timestamp, current_type))
+            
+            # Start new group
+            current_type = wall_type
+            current_timestamps = [timestamp]
+    
+    # Don't forget the last group
+    if current_type is not None and current_timestamps:
+        mean_timestamp = pd.Timestamp(
+            int(np.mean([ts.value for ts in current_timestamps])),
+            unit='ns'
+        )
+        consolidated.append((mean_timestamp, current_type))
+    
+    return consolidated
 
 
 def transform_all_data(periods_dict):

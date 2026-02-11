@@ -11,7 +11,7 @@ Active Alarms:  None fired,,,,,
 Next Clock Alarm At:  Disabled,,,,,
 High Temperature Alarm:  85 °C,,,,,
 Low Temperature Alarm:  -40 °C,,,,,
-,,,Value Heat Surface Sensor,,
+,,,,,
 Date/Time,Unit,Value Heat Surface Sensor,Internal temp sensor,Out Air temp,Wall Type
 12/03/2025 11:10,C,22.5,20.9,23.5,Exposed 
 12/03/2025 11:20,C,22.5,20.9,23.2,Exposed 
@@ -1170,6 +1170,3 @@ Date/Time,Unit,Value Heat Surface Sensor,Internal temp sensor,Out Air temp,Wall 
 12/11/2025 11:30,C,14.5,17.8,13.9,Wet soil
 12/11/2025 11:40,C,14.5,20.0,13.8,Wet soil
 12/11/2025 11:50,C,14.5,20.3,13.8,Wet soil
-12/11/2025 12:00,C,15.0,20.2,13.6,Wet soil
-12/11/2025 12:10,C,16.5,20.3,13.6,Wet soil
-12/11/2025 12:20,C,20.0,,,

@@ -188,6 +188,8 @@ def load_csv_file(filepath):
         # Strip trailing/leading spaces from wall_type values
         if 'wall_type' in df.columns:
             df['wall_type'] = df['wall_type'].astype(str).str.strip()
+            # Fix typo: 'Yraka' should be 'Yarka'
+            df['wall_type'] = df['wall_type'].replace('Yraka', 'Yarka')
         
         # Keep only needed columns
         keep_cols = ['timestamp', 'surface_temp', 'internal_temp', 'room_temp', 'wall_type']
@@ -358,8 +360,8 @@ def load_period_data(period_folder):
 
 def load_all_periods(base_folder='.'):
     """
-    Load Period1 data (Period2 will be added later).
-    Returns dict: {'Period1': df1}
+    Load Period1 and Period2 data from data_cleaned folder.
+    Returns dict: {'Period1': df1, 'Period2': df2}
     """
     logger.info(f"\n\n{'*'*80}")
     logger.info(f"{'*'*80}")
@@ -371,8 +373,8 @@ def load_all_periods(base_folder='.'):
     base_path = Path(base_folder)
     periods = {}
     
-    # Only load Period1 for now
-    for period_name in ['Period1']:
+    # Load both Period1 and Period2
+    for period_name in ['Period1', 'Period2']:
         period_path = base_path / period_name
         if period_path.exists():
             logger.info(f"\n\ud83d\udcc2 Found {period_name} folder at: {period_path}")
@@ -382,7 +384,7 @@ def load_all_periods(base_folder='.'):
                 periods[period_name] = df
                 logger.info(f"\u2713 {period_name} loaded successfully")
         else:
-            logger.error(f"\u274c Period folder not found: {period_path}")
+            logger.warning(f"⚠ Period folder not found: {period_path}")
     
     # Final summary
     logger.info(f"\n{'*'*80}")

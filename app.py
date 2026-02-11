@@ -79,6 +79,37 @@ period_option = st.sidebar.selectbox(
     index=0 if 'Period1' in available_periods else 0
 )
 
+# Sensor exclusion
+st.sidebar.markdown("---")
+st.sidebar.subheader("🔧 Sensor Exclusion")
+st.sidebar.markdown("*Exclude sensors from all calculations*")
+
+# Create sensor options for both boxes
+sensor_options = []
+for box in [1, 2]:
+    box_name = 'Control' if box == 1 else 'Experimental'
+    for sensor in range(1, 17):
+        sensor_options.append(f"{box_name} Box - Sensor {sensor}")
+
+excluded_sensors = st.sidebar.multiselect(
+    "Exclude Sensors",
+    options=sensor_options,
+    default=[],
+    help="Select sensors to exclude from all averages and calculations"
+)
+
+# Parse excluded sensors into (box_id, sensor_id) tuples
+excluded_pairs = []
+for s in excluded_sensors:
+    if 'Control' in s:
+        box_id = 1
+    else:
+        box_id = 2
+    sensor_id = int(s.split('Sensor ')[1])
+    excluded_pairs.append((box_id, sensor_id))
+
+st.sidebar.markdown("---")
+
 # View level
 view_level = st.sidebar.radio(
     "View Level",
@@ -173,7 +204,7 @@ else:  # Box Average or Per-Box Detail or Wall Comparison
         show_out_surface = False
 
 
-# ===== FILTER DATA BY PERIOD =====
+# ===== FILTER DATA BY PERIOD AND EXCLUDED SENSORS =====
 
 def filter_by_period(df, period_opt):
     """Filter dataframe by period selection."""
@@ -183,10 +214,36 @@ def filter_by_period(df, period_opt):
     return df[df['period'] == period_opt].copy()
 
 
-# Apply period filter
-filtered_sensor = filter_by_period(sensor_data, period_option)
-filtered_wall = filter_by_period(wall_data, period_option)
-filtered_box = filter_by_period(box_data, period_option)
+def exclude_sensors(sensor_df, wall_df, box_df, excluded_pairs):
+    """Remove excluded sensors and re-aggregate wall/box levels."""
+    if not excluded_pairs or sensor_df is None:
+        return sensor_df, wall_df, box_df
+    
+    # Filter sensor data
+    filtered_sensor = sensor_df.copy()
+    for box_id, sensor_id in excluded_pairs:
+        filtered_sensor = filtered_sensor[
+            ~((filtered_sensor['box_id'] == box_id) & (filtered_sensor['sensor_id'] == sensor_id))
+        ]
+    
+    # Re-aggregate wall level from filtered sensors
+    from src.transform import aggregate_wall_level, aggregate_box_level
+    
+    filtered_wall = aggregate_wall_level(filtered_sensor)
+    filtered_box = aggregate_box_level(filtered_sensor)
+    
+    return filtered_sensor, filtered_wall, filtered_box
+
+
+# Apply sensor exclusion FIRST (before period filtering)
+filtered_sensor_all_periods, filtered_wall_all_periods, filtered_box_all_periods = exclude_sensors(
+    sensor_data, wall_data, box_data, excluded_pairs
+)
+
+# Then apply period filter
+filtered_sensor = filter_by_period(filtered_sensor_all_periods, period_option)
+filtered_wall = filter_by_period(filtered_wall_all_periods, period_option)
+filtered_box = filter_by_period(filtered_box_all_periods, period_option)
 
 # Apply smoothing
 if smoothing_option:
@@ -438,39 +495,31 @@ with tab1:
 
 # ----- TAB 2: SANDWICH VIEW -----
 with tab2:
-    st.header("Sandwich View - Thermal Transfer Analysis")
+    st.header("Sandwich View - Thermal Transfer Analysis by Wall Type")
     
     st.info("""
-    **Thermal Lag Analysis**
+    **Thermal Lag Analysis by Wall Type**
     
     Calculated via cross-correlation between outside and inside surface temperature time series.
-    Lag value indicates time delay (minutes) for temperature changes to propagate through the wall.
-    Correlation coefficient (r) indicates pattern similarity between surfaces.
+    - Temperatures are **aggregated across all walls of the same type** (e.g., all "Exposed" walls)
+    - Lag value indicates time delay (minutes) for temperature changes to propagate through the wall
+    - Correlation coefficient (r) indicates pattern similarity between surfaces
+    - Each subplot shows one wall type
     """)
     
-    col1, col2 = st.columns([1, 3])
+    sandwich_box = st.radio(
+        "Select Box", 
+        options=[1, 2], 
+        format_func=lambda x: 'Control' if x == 1 else 'Experimental', 
+        index=1, 
+        key='sandwich_box'
+    )
     
-    with col1:
-        sandwich_box = st.radio(
-            "Select Box", 
-            options=[1, 2], 
-            format_func=lambda x: 'Control' if x == 1 else 'Experimental', 
-            index=1, 
-            key='sandwich_box'
-        )
-        
-        st.markdown("**Walls to Display:**")
-        sandwich_walls = []
-        for wall_id in [1, 2, 3, 4]:
-            if st.checkbox(f"Wall {wall_id}", value=True, key=f"sandwich_wall_{wall_id}"):
-                sandwich_walls.append(wall_id)
-    
-    with col2:
-        if filtered_wall is not None and sandwich_walls:
-            fig = plot_sandwich_view(filtered_wall, box_id=sandwich_box, wall_ids=sandwich_walls)
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.warning("No walls selected or no data available.")
+    if filtered_wall is not None:
+        fig = plot_sandwich_view(filtered_wall, box_id=sandwich_box)
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.warning("No data available.")
 
 
 # ----- TAB 3: THERMAL GRADIENT -----
@@ -486,24 +535,33 @@ with tab3:
     Higher absolute values indicate better insulation (larger temperature difference maintained).
     """)
     
-    gradient_periods = st.multiselect(
-        "Select Periods",
-        options=available_periods,
-        default=available_periods,
-        key='gradient_periods'
+    # Period selection for gradient
+    gradient_period_mode = st.radio(
+        "Period View",
+        options=['Current Period Only', 'Both Periods Combined'],
+        index=0,
+        help="View gradient for current sidebar period or combine both periods",
+        horizontal=True
     )
     
-    if filtered_wall is not None and gradient_periods:
-        # Filter by selected periods for gradient
-        gradient_data = filtered_wall[filtered_wall['period'].isin(gradient_periods)]
-        
-        if 'wall_type' in gradient_data.columns:
-            fig = plot_thermal_gradient_summary(gradient_data, periods=gradient_periods)
+    # Determine which data to use
+    if gradient_period_mode == 'Both Periods Combined':
+        # Use all periods data (with sensor exclusions already applied)
+        gradient_wall_data = filtered_wall_all_periods
+        gradient_periods = available_periods
+    else:
+        # Use current filtered data (single period)
+        gradient_wall_data = filtered_wall
+        gradient_periods = [period_option] if period_option else []
+    
+    if gradient_wall_data is not None and len(gradient_wall_data) > 0:
+        if 'wall_type' in gradient_wall_data.columns:
+            fig = plot_thermal_gradient_summary(gradient_wall_data, periods=gradient_periods)
             st.plotly_chart(fig, use_container_width=True)
         else:
             st.warning("Wall type information not available.")
     else:
-        st.warning("Please select at least one period.")
+        st.warning("No data available.")
 
 
 # ----- TAB 4: DIAGNOSTIC OVERLAY -----
@@ -524,23 +582,69 @@ with tab4:
             key='diag_y_var'
         )
         
+        st.markdown("---")
+        st.markdown("**Sensor Selection:**")
+        
+        # Get available sensors for this box
+        if filtered_sensor is not None:
+            box_sensors = sorted(filtered_sensor[filtered_sensor['box_id'] == diag_box]['sensor_id'].unique())
+        else:
+            box_sensors = list(range(1, 17))
+        
+        # Quick select/deselect all
+        col_a, col_b = st.columns(2)
+        with col_a:
+            if st.button("Select All", key='select_all_sensors'):
+                for s in box_sensors:
+                    st.session_state[f'sensor_{s}'] = True
+        with col_b:
+            if st.button("Clear All", key='clear_all_sensors'):
+                for s in box_sensors:
+                    st.session_state[f'sensor_{s}'] = False
+        
+        selected_sensors = []
+        for sensor_id in range(1, 17):
+            # Default all to checked if not in session state
+            default_val = sensor_id in box_sensors
+            if f'sensor_{sensor_id}' not in st.session_state:
+                st.session_state[f'sensor_{sensor_id}'] = default_val
+            
+            is_available = sensor_id in box_sensors
+            label = f"Sensor {sensor_id}" + ("" if is_available else " (N/A)")
+            
+            if st.checkbox(label, value=st.session_state[f'sensor_{sensor_id}'], key=f'sensor_check_{sensor_id}', disabled=not is_available):
+                if is_available:
+                    selected_sensors.append(sensor_id)
+                st.session_state[f'sensor_{sensor_id}'] = True
+            else:
+                st.session_state[f'sensor_{sensor_id}'] = False
+        
+        st.markdown("---")
         st.markdown("**Legend:**")
         st.markdown("🔴 Red = Outside sensors (1-8)")
         st.markdown("🔵 Blue = Inside sensors (9-16)")
         st.markdown("⚫ Black = Box average")
     
     with col2:
-        if filtered_sensor is not None:
-            fig = plot_diagnostic_overlay(filtered_sensor, box_id=diag_box, y_var=diag_y_var)
+        if filtered_sensor is not None and selected_sensors:
+            # Filter sensor data based on selection
+            sensor_subset = filtered_sensor[
+                (filtered_sensor['box_id'] == diag_box) & 
+                (filtered_sensor['sensor_id'].isin(selected_sensors))
+            ]
+            
+            fig = plot_diagnostic_overlay(sensor_subset, box_id=diag_box, y_var=diag_y_var)
             st.plotly_chart(fig, use_container_width=True)
             
             # Show sensor availability
             available_sensors = sorted(filtered_sensor[filtered_sensor['box_id'] == diag_box]['sensor_id'].unique())
             missing_sensors = [s for s in range(1, 17) if s not in available_sensors]
             
-            st.info(f"**Available sensors:** {', '.join(map(str, available_sensors))}")
+            st.info(f"**Displaying {len(selected_sensors)} sensors** | Available: {', '.join(map(str, available_sensors))}")
             if missing_sensors:
                 st.warning(f"**Missing sensors:** {', '.join(map(str, missing_sensors))}")
+        elif filtered_sensor is not None:
+            st.warning("No sensors selected. Please select at least one sensor.")
         else:
             st.warning("No sensor data available.")
 
