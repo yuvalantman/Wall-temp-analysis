@@ -849,3 +849,292 @@ def create_summary_table(data):
     summary = summary.reset_index()
     
     return summary
+
+
+def plot_thermal_gradient_normalized(data, periods=None, normalized=False):
+    """
+    Plot thermal gradient summary with normalized delta view.
+    Shows delta at each timestamp, with 2 key gradients per wall type:
+    1. Surface gradient: Outside Surface - Inside Surface
+    2. Total gradient: Outside Air - Internal Temp
+    
+    Parameters:
+    - normalized: If True, shows deltas relative to room temperature (temps normalized first)
+    """
+    if periods is None:
+        periods = data['period'].unique()
+    
+    filtered = data[data['period'].isin(periods)]
+    
+    # Check which columns are available
+    if normalized:
+        # Use normalized columns if available
+        out_surface_col = 'out_normalized_surface' if 'out_normalized_surface' in filtered.columns else 'out_surface'
+        in_surface_col = 'in_normalized_surface' if 'in_normalized_surface' in filtered.columns else 'in_surface'
+        internal_col = 'in_normalized_internal' if 'in_normalized_internal' in filtered.columns else 'in_internal'
+        # In normalized view, room_temp equivalent is 0
+        room_temp_col = None
+    else:
+        out_surface_col = 'out_surface'
+        in_surface_col = 'in_surface'
+        internal_col = 'in_internal'
+        room_temp_col = 'room_temp'
+    
+    required_cols = [out_surface_col, in_surface_col, internal_col]
+    if not normalized:
+        required_cols.append(room_temp_col)
+    
+    # Check for missing columns
+    missing = [c for c in required_cols if c not in filtered.columns]
+    if missing:
+        fig = go.Figure()
+        fig.add_annotation(
+            text=f"Required columns not found: {missing}",
+            xref="paper", yref="paper",
+            x=0.5, y=0.5,
+            showarrow=False,
+            font=dict(size=16)
+        )
+        return fig
+    
+    # Get unique wall types
+    wall_types = filtered['wall_type'].dropna().unique()
+    wall_types = sorted([wt for wt in wall_types if pd.notna(wt)])
+    
+    if len(wall_types) == 0:
+        fig = go.Figure()
+        fig.add_annotation(
+            text="No wall type data available",
+            xref="paper", yref="paper",
+            x=0.5, y=0.5,
+            showarrow=False,
+            font=dict(size=16)
+        )
+        return fig
+    
+    # Define colors for wall types
+    wall_type_colors = {
+        'Exposed': '#E63946',
+        'Yarka': '#06A77D',
+        'Dry soil': '#F77F00',
+        'Succalents': '#6A4C93',
+        'Wet soil': '#1E88E5',
+    }
+    
+    # Create figure with 2 subplots (Surface Gradient, Total Gradient)
+    fig = make_subplots(
+        rows=2, cols=1,
+        row_heights=[0.5, 0.5],
+        vertical_spacing=0.12,
+        subplot_titles=(
+            'Surface Temperature Delta (ΔT = Outside Surface - Inside Surface)',
+            'Total Temperature Delta (ΔT = Outside Air - Internal Temp)'
+        )
+    )
+    
+    # Plot deltas over time for each wall type
+    for wall_type in wall_types:
+        wall_data_filtered = filtered[filtered['wall_type'] == wall_type].copy()
+        
+        if len(wall_data_filtered) == 0:
+            continue
+        
+        color = wall_type_colors.get(wall_type, '#6C757D')
+        
+        # Aggregate by timestamp (mean across walls of same type)
+        agg_cols = {'timestamp': 'first'}
+        for col in [out_surface_col, in_surface_col, internal_col]:
+            if col in wall_data_filtered.columns:
+                agg_cols[col] = 'mean'
+        if room_temp_col and room_temp_col in wall_data_filtered.columns:
+            agg_cols[room_temp_col] = 'mean'
+        
+        aggregated = wall_data_filtered.groupby('timestamp').agg(agg_cols).reset_index(drop=True)
+        aggregated = aggregated.sort_values('timestamp')
+        
+        # Calculate Surface Gradient (out_surface - in_surface)
+        aggregated['surface_delta'] = aggregated[out_surface_col] - aggregated[in_surface_col]
+        
+        # Calculate Total Gradient (room_temp - internal) or (0 - internal for normalized)
+        if normalized:
+            # In normalized view, room=0, so delta = 0 - internal = -internal
+            aggregated['total_delta'] = -aggregated[internal_col]
+        else:
+            aggregated['total_delta'] = aggregated[room_temp_col] - aggregated[internal_col]
+        
+        # Plot Surface Delta
+        fig.add_trace(go.Scatter(
+            x=aggregated['timestamp'],
+            y=aggregated['surface_delta'],
+            mode='lines',
+            name=wall_type,
+            line=dict(color=color, width=2),
+            legendgroup=wall_type,
+            showlegend=True,
+            hovertemplate=f'{wall_type}<br>Time: %{{x}}<br>ΔT: %{{y:.2f}}°C<extra></extra>',
+        ), row=1, col=1)
+        
+        # Plot Total Delta
+        fig.add_trace(go.Scatter(
+            x=aggregated['timestamp'],
+            y=aggregated['total_delta'],
+            mode='lines',
+            name=wall_type,
+            line=dict(color=color, width=2),
+            legendgroup=wall_type,
+            showlegend=False,
+            hovertemplate=f'{wall_type}<br>Time: %{{x}}<br>ΔT: %{{y:.2f}}°C<extra></extra>',
+        ), row=2, col=1)
+    
+    # Add zero line reference
+    fig.add_hline(y=0, row=1, col=1, line_dash="dash", line_color="gray", line_width=1)
+    fig.add_hline(y=0, row=2, col=1, line_dash="dash", line_color="gray", line_width=1)
+    
+    # Update layout
+    title = 'Thermal Gradients Over Time by Wall Type'
+    if normalized:
+        title += ' (Normalized View)'
+    
+    fig.update_layout(
+        title=title,
+        height=700,
+        hovermode='x unified',
+        legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+    )
+    
+    fig.update_xaxes(title_text='Time', row=2, col=1)
+    fig.update_yaxes(title_text='ΔT (°C)', row=1, col=1)
+    fig.update_yaxes(title_text='ΔT (°C)', row=2, col=1)
+    
+    return fig
+
+
+def plot_temperature_relationship(data, periods=None, x_var='room_temp', y_var='in_internal', normalized=False):
+    """
+    Plot temperature relationship scatter plot grouped by wall type.
+    For each x value, calculates mean y values per wall type and connects dots.
+    
+    Parameters:
+    - x_var: Variable for x-axis ('room_temp', 'out_surface', 'in_surface', 'in_internal')
+    - y_var: Variable for y-axis ('room_temp', 'out_surface', 'in_surface', 'in_internal')
+    - normalized: If True, use normalized temperature columns
+    """
+    if periods is None:
+        periods = data['period'].unique()
+    
+    filtered = data[data['period'].isin(periods)].copy()
+    
+    # Map variable names to column names
+    var_mapping = {
+        'room_temp': ('room_temp', 'Out Air Temp'),
+        'out_surface': ('out_surface' if not normalized else 'out_normalized_surface', 'Outside Wall Temp'),
+        'in_surface': ('in_surface' if not normalized else 'in_normalized_surface', 'Inside Wall Temp'),
+        'in_internal': ('in_internal' if not normalized else 'in_normalized_internal', 'Internal Temp'),
+    }
+    
+    # Handle normalized room_temp (it's always 0 in normalized view)
+    if normalized and x_var == 'room_temp':
+        x_col = 'room_temp'  # Will be replaced with 0
+        x_label = 'Out Air Temp (=0 in normalized)'
+    else:
+        x_col, x_label = var_mapping.get(x_var, ('room_temp', 'Out Air Temp'))
+    
+    if normalized and y_var == 'room_temp':
+        y_col = 'room_temp'
+        y_label = 'Out Air Temp (=0 in normalized)'
+    else:
+        y_col, y_label = var_mapping.get(y_var, ('in_internal', 'Internal Temp'))
+    
+    if normalized:
+        x_label += ' (Normalized)'
+        y_label += ' (Normalized)'
+    
+    # Check columns exist
+    if x_col not in filtered.columns:
+        # Try alternative
+        alt_col = x_col.replace('normalized_', '')
+        if alt_col in filtered.columns:
+            x_col = alt_col
+        else:
+            fig = go.Figure()
+            fig.add_annotation(text=f"Column '{x_col}' not found", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
+            return fig
+    
+    if y_col not in filtered.columns:
+        alt_col = y_col.replace('normalized_', '')
+        if alt_col in filtered.columns:
+            y_col = alt_col
+        else:
+            fig = go.Figure()
+            fig.add_annotation(text=f"Column '{y_col}' not found", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
+            return fig
+    
+    # Get unique wall types
+    wall_types = filtered['wall_type'].dropna().unique()
+    wall_types = sorted([wt for wt in wall_types if pd.notna(wt)])
+    
+    if len(wall_types) == 0:
+        fig = go.Figure()
+        fig.add_annotation(text="No wall type data available", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
+        return fig
+    
+    # Define colors for wall types
+    wall_type_colors = {
+        'Exposed': '#E63946',
+        'Yarka': '#06A77D',
+        'Dry soil': '#F77F00',
+        'Succalents': '#6A4C93',
+        'Wet soil': '#1E88E5',
+    }
+    
+    fig = go.Figure()
+    
+    for wall_type in wall_types:
+        wall_data_filtered = filtered[filtered['wall_type'] == wall_type].copy()
+        
+        if len(wall_data_filtered) == 0:
+            continue
+        
+        color = wall_type_colors.get(wall_type, '#6C757D')
+        
+        # Round x values to bin them (1 decimal place for temperature)
+        wall_data_filtered['x_binned'] = wall_data_filtered[x_col].round(1)
+        
+        # For normalized room_temp, x is always 0
+        if normalized and x_var == 'room_temp':
+            wall_data_filtered['x_binned'] = 0
+        
+        # Group by x_binned and calculate mean y
+        grouped = wall_data_filtered.groupby('x_binned').agg({
+            y_col: 'mean',
+            'timestamp': 'count'  # Count for hover info
+        }).reset_index()
+        grouped = grouped.rename(columns={'timestamp': 'count'})
+        grouped = grouped.sort_values('x_binned')
+        
+        # Plot line with markers
+        fig.add_trace(go.Scatter(
+            x=grouped['x_binned'],
+            y=grouped[y_col],
+            mode='lines+markers',
+            name=wall_type,
+            line=dict(color=color, width=2),
+            marker=dict(size=8, color=color, line=dict(width=1, color='white')),
+            hovertemplate=f'{wall_type}<br>{x_label}: %{{x:.1f}}°C<br>{y_label}: %{{y:.2f}}°C<br>N=%{{customdata}}<extra></extra>',
+            customdata=grouped['count'],
+        ))
+    
+    title = f'{y_label} vs {x_label} by Wall Type'
+    if normalized:
+        title += ' (Normalized View)'
+    
+    fig.update_layout(
+        title=title,
+        xaxis_title=x_label + ' (°C)',
+        yaxis_title=y_label + ' (°C)',
+        height=500,
+        hovermode='closest',
+        legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+    )
+    
+    return fig

@@ -14,8 +14,8 @@ from src.load import load_all_periods
 from src.transform import transform_all_data, apply_smoothing, detect_wall_type_changes
 from src.plots import (
     plot_timeline_box, plot_timeline_wall, plot_timeline_wall_comparison, plot_sandwich_view,
-    plot_thermal_gradient_summary, plot_diagnostic_overlay,
-    plot_correlation_heatmap, create_summary_table, BOX_COLORS, ROOM_TEMP_COLOR
+    plot_thermal_gradient_summary, plot_thermal_gradient_normalized, plot_temperature_relationship,
+    plot_diagnostic_overlay, plot_correlation_heatmap, create_summary_table, BOX_COLORS, ROOM_TEMP_COLOR
 )
 
 # Configure logging
@@ -556,8 +556,74 @@ with tab3:
     
     if gradient_wall_data is not None and len(gradient_wall_data) > 0:
         if 'wall_type' in gradient_wall_data.columns:
+            # Original summary plot (mean values)
+            st.subheader("📊 Mean Temperature Gradients")
             fig = plot_thermal_gradient_summary(gradient_wall_data, periods=gradient_periods)
             st.plotly_chart(fig, use_container_width=True)
+            
+            # New: Normalized delta view (time series)
+            st.markdown("---")
+            st.subheader("📈 Normalized Delta View (Over Time)")
+            st.markdown("""
+            Shows temperature deltas over time for each wall type:
+            - **Surface Delta**: Outside Surface - Inside Surface
+            - **Total Delta**: Outside Air - Internal Temp
+            """)
+            if normalized:
+                st.info("🔄 **Normalized View Active**: Temperatures shown relative to room temperature")
+            
+            fig_norm = plot_thermal_gradient_normalized(gradient_wall_data, periods=gradient_periods, normalized=normalized)
+            st.plotly_chart(fig_norm, use_container_width=True)
+            
+            # New: Temperature Relationship Plot
+            st.markdown("---")
+            st.subheader("🔗 Temperature Relationship Analysis")
+            st.markdown("""
+            Explore relationships between different temperature measurements.
+            For each X value, shows the mean Y value grouped by wall type.
+            """)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                x_var_options = {
+                    'room_temp': 'Out Air Temp (Room)',
+                    'out_surface': 'Outside Wall Temp',
+                    'in_surface': 'Inside Wall Temp',
+                    'in_internal': 'Internal Temp'
+                }
+                x_var = st.selectbox(
+                    "X-Axis Variable",
+                    options=list(x_var_options.keys()),
+                    format_func=lambda x: x_var_options[x],
+                    index=0,
+                    key='gradient_x_var'
+                )
+            with col2:
+                y_var_options = {
+                    'in_internal': 'Internal Temp',
+                    'in_surface': 'Inside Wall Temp',
+                    'out_surface': 'Outside Wall Temp',
+                    'room_temp': 'Out Air Temp (Room)'
+                }
+                y_var = st.selectbox(
+                    "Y-Axis Variable",
+                    options=list(y_var_options.keys()),
+                    format_func=lambda x: y_var_options[x],
+                    index=0,
+                    key='gradient_y_var'
+                )
+            
+            if normalized:
+                st.info("🔄 **Normalized View Active**: Temperatures shown relative to room temperature")
+            
+            fig_rel = plot_temperature_relationship(
+                gradient_wall_data, 
+                periods=gradient_periods, 
+                x_var=x_var, 
+                y_var=y_var,
+                normalized=normalized
+            )
+            st.plotly_chart(fig_rel, use_container_width=True)
         else:
             st.warning("Wall type information not available.")
     else:
